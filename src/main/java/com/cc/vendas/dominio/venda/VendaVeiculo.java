@@ -18,6 +18,12 @@ public class VendaVeiculo {
         this.docComprador = docComprador;
     }
 
+    public VendaVeiculo(UUID idVeiculo, Double preco, String docComprador) {
+        this.idVeiculo = idVeiculo;
+        this.preco = preco;
+        this.docComprador = docComprador;
+    }
+
     public UUID getId() {
         return id;
     }

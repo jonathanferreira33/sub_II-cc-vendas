@@ -1,7 +1,7 @@
 package com.cc.vendas.adaptadores.saida.persistencia.repositorios;
 
 import com.cc.vendas.adaptadores.saida.entidades.JpaVeiculoEntity;
-import com.cc.vendas.adaptadores.saida.persistencia.mapper.VeiculoMapper;
+import com.cc.vendas.adaptadores.saida.mapper.VeiculoJpaMapper;
 import com.cc.vendas.dominio.veiculo.Veiculo;
 import com.cc.vendas.dominio.veiculo.VeiculoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,22 +22,22 @@ public class VeiculoRepositoryImpl implements VeiculoRepository {
 
     @Override
     public Veiculo salvar(Veiculo veiculo) {
-        JpaVeiculoEntity entity = VeiculoMapper.jpaParaDominio(veiculo);
+        JpaVeiculoEntity entity = VeiculoJpaMapper.dominioParaJpa(veiculo);
         this.repository.save(entity);
-        return VeiculoMapper.jpaParaDominio(entity);
+        return VeiculoJpaMapper.dominioParaJpa(entity);
     }
 
     @Override
     public Optional<Veiculo> buscarPorId(UUID id) {
         return repository.findById(id)
-                .map(VeiculoMapper::jpaParaDominio);
+                .map(VeiculoJpaMapper::dominioParaJpa);
     }
 
     @Override
     public List<Veiculo> buscarTodosVeiculosPorStatusOrdenadoPorPreco(String status) {
         return repository.findByStatusVeiculoOrderByPrecoAsc(status)
                 .stream()
-                .map(VeiculoMapper::jpaParaDominio)
+                .map(VeiculoJpaMapper::dominioParaJpa)
                 .toList();
     }
 

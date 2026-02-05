@@ -1,11 +1,14 @@
 package com.cc.vendas.dominio.veiculo;
 
+import com.cc.vendas.dominio.excecao.RegraNegocioException;
+
 import java.util.UUID;
 
 public class Veiculo {
     private UUID id;
     private String marca;
     private String modelo;
+    private String cor;
     private Integer ano;
     private Double preco;
     private StatusVeiculo status;
@@ -15,83 +18,126 @@ public class Veiculo {
         this.status = StatusVeiculo.ANALISE;
     }
 
-    public Veiculo(UUID id, String marca, String modelo, Integer ano, Double preco, StatusVeiculo status, String docComprador) {
+    private Veiculo(
+            UUID id,
+            String marca,
+            String modelo,
+            String cor,
+            Integer ano,
+            Double preco
+    ) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;
+        this.cor = cor;
         this.ano = ano;
         this.preco = preco;
-        this.status = status;
-        this.docComprador = docComprador;
+        this.status = StatusVeiculo.ANALISE;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getId() { return id; }
+    public String getMarca() { return marca; }
+    public String getModelo() { return modelo; }
+    public String getCor() { return cor; }
+    public Integer getAno() { return ano; }
+    public Double getPreco() { return preco; }
+    public StatusVeiculo getStatus() { return status; }
+    public String getDocComprador() { return docComprador; }
+
+
+    public static Veiculo criar(
+            String marca,
+            String modelo,
+            String cor,
+            Integer ano,
+            Double preco
+    ) {
+        validarCampos(marca, modelo, cor, ano, preco);
+        return new Veiculo(
+                UUID.randomUUID(),
+                marca,
+                modelo,
+                cor,
+                ano,
+                preco
+        );
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public static Veiculo reconstituir(
+            UUID id,
+            String marca,
+            String modelo,
+            String cor,
+            Integer ano,
+            Double preco,
+            StatusVeiculo status,
+            String docComprador
+    ) {
+        Veiculo veiculo = new Veiculo(
+                id,
+                marca,
+                modelo,
+                cor,
+                ano,
+                preco
+        );
+
+        veiculo.status = status;
+        veiculo.docComprador = docComprador;
+
+        return veiculo;
     }
 
-    public String getMarca() {
-        return marca;
-    }
+    public void atualizarDados(
+            String marca,
+            String modelo,
+            String cor,
+            Integer ano,
+            Double preco
+    ) {
+        validarEdicao();
+        validarCampos(marca, modelo, cor, ano, preco);
 
-    public void setMarca(String marca) {
         this.marca = marca;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
         this.modelo = modelo;
-    }
-
-    public Integer getAno() {
-        return ano;
-    }
-
-    public void setAno(Integer ano) {
+        this.cor = cor;
         this.ano = ano;
-    }
-
-    public Double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Double preco) {
         this.preco = preco;
     }
 
-    public StatusVeiculo getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusVeiculo status) {
-        this.status = status;
-    }
-
-    public String getDocComprador() {
-        return docComprador;
-    }
-
-    public void setDocComprador(String docComprador) {
-        this.docComprador = docComprador;
-    }
-
-    public void validarEdicao() throws Exception {
-        if (this.status == StatusVeiculo.VENDIDO)
-            throw new Exception("Veiculo indisponivel para edição");
-    }
-
-    public void registrarVenda(String cpf) throws Exception {
+    public void registrarVenda(String cpf) {
         if (this.status != StatusVeiculo.DISPONIVEL_PARA_VENDA)
-            throw new Exception("Veiculo indisponivel para venda");
+            throw new RegraNegocioException("Veiculo indisponivel para venda");
 
         this.docComprador = cpf;
         this.status = StatusVeiculo.VENDIDO;
     }
 
+    public void validarEdicao() {
+        if (this.status == StatusVeiculo.VENDIDO)
+            throw new RegraNegocioException("Veiculo indisponivel para edição");
+    }
+
+    private static void validarCampos(
+            String marca,
+            String modelo,
+            String cor,
+            Integer ano,
+            Double preco
+    ) {
+        if (marca == null || marca.isBlank())
+            throw new RegraNegocioException("Marca obrigatória");
+
+        if (modelo == null || modelo.isBlank())
+            throw new RegraNegocioException("Modelo obrigatório");
+
+        if (cor == null || cor.isBlank())
+            throw new RegraNegocioException("Modelo obrigatório");
+
+        if (ano == null || ano <= 0)
+            throw new RegraNegocioException("Ano inválido");
+
+        if (preco == null || preco <= 0)
+            throw new RegraNegocioException("Preço inválido");
+    }
 }

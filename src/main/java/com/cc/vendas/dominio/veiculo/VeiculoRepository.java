@@ -10,5 +10,4 @@ public interface VeiculoRepository {
     Veiculo salvar(Veiculo veiculo);
     Optional<Veiculo> buscarPorId(UUID id);
     List<Veiculo> buscarTodosVeiculosPorStatusOrdenadoPorPreco(String status);
-    JpaVeiculoEntity buscarEntidadePorId(UUID id);
 }

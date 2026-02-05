@@ -1,16 +1,16 @@
 package com.cc.vendas.aplicacao.servicos;
 
-import com.cc.vendas.adaptadores.saida.entidades.JpaVeiculoEntity;
-import com.cc.vendas.adaptadores.saida.persistencia.mapper.VeiculoMapper;
-import com.cc.vendas.adaptadores.saida.persistencia.repositorios.VeiculoRepositoryImpl;
 import com.cc.vendas.aplicacao.casosdeuso.VeiculoUseCase;
-import com.cc.vendas.aplicacao.dto.VeiculoDTO;
+import com.cc.vendas.aplicacao.dto.entrada.RegistrarVeiculoInput;
+import com.cc.vendas.aplicacao.dto.mapper.VeiculoAppMapper;
+import com.cc.vendas.aplicacao.dto.saida.VeiculoResumoOutput;
+import com.cc.vendas.dominio.excecao.RegraNegocioException;
 import com.cc.vendas.dominio.veiculo.StatusVeiculo;
 import com.cc.vendas.dominio.veiculo.Veiculo;
 import com.cc.vendas.dominio.veiculo.VeiculoRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,32 +25,70 @@ public class VeiculoServiceImpl implements VeiculoUseCase {
     }
 
     @Override
-    public Veiculo atualizarDadosVeiculo(UUID id, VeiculoDTO veiculoDTO) {
+    public VeiculoResumoOutput atualizarDadosVeiculo(UUID id, RegistrarVeiculoInput veiculo) {
+        validarAno(veiculo.ano());
 
-        JpaVeiculoEntity entidade = repository.buscarEntidadePorId(id);
+        Veiculo veiculoEntity = repository.buscarPorId(id)
+                .orElseThrow(() -> new RegraNegocioException("Veículo não encontrado"));
 
-        entidade.setAno(veiculoDTO.getAno());
-        entidade.setDocComprador(veiculoDTO.getDocComprador());
-        entidade.setMarca(veiculoDTO.getMarca());
-        entidade.setModelo(veiculoDTO.getModelo());
-        entidade.setPreco(veiculoDTO.getPreco());
-        entidade.setStatusVeiculo(veiculoDTO.getStatus().name());
+        veiculoEntity.atualizarDados(
+                veiculo.marca(),
+                veiculo.modelo(),
+                veiculo.cor(),
+                veiculo.ano(),
+                veiculo.preco()
+        );
 
-        return VeiculoMapper.jpaParaDominio(entidade);
+        repository.salvar(veiculoEntity);
+
+        return VeiculoAppMapper.veiculoParaResumoOutput(veiculoEntity);
+
     }
 
     @Override
-    public Optional<Veiculo> buscarVeiculoPorId(UUID id) {
-        return repository.buscarPorId(id);
+    public List<VeiculoResumoOutput> buscarVeiculosDisponiveis() {
+        return repository.buscarTodosVeiculosPorStatusOrdenadoPorPreco(StatusVeiculo.DISPONIVEL_PARA_VENDA.name())
+                .stream()
+                .map(VeiculoAppMapper::veiculoParaResumoOutput)
+                .toList();
     }
 
     @Override
-    public List<Veiculo> buscarVeiculosDisponiveis() {
-        return repository.buscarTodosVeiculosPorStatusOrdenadoPorPreco(StatusVeiculo.DISPONIVEL_PARA_VENDA.name());
+    public List<VeiculoResumoOutput> buscarVeiculosVendidos() {
+        return repository.buscarTodosVeiculosPorStatusOrdenadoPorPreco(StatusVeiculo.VENDIDO.name())
+                .stream()
+                .map(VeiculoAppMapper::veiculoParaResumoOutput)
+                .toList();
     }
 
     @Override
-    public List<Veiculo> buscarVeiculosVendidos() {
-        return repository.buscarTodosVeiculosPorStatusOrdenadoPorPreco(StatusVeiculo.VENDIDO.name());
+    public Optional<VeiculoResumoOutput> buscarVeiculoPorId(UUID id) {
+        return repository.buscarPorId(id)
+                .map(VeiculoAppMapper::veiculoParaResumoOutput);
+    }
+
+    @Override
+    public VeiculoResumoOutput cadastrarVeiculo(RegistrarVeiculoInput input) {
+
+        validarAno(input.ano());
+
+        Veiculo veiculo = Veiculo.criar(
+                input.marca(),
+                input.modelo(),
+                input.cor(),
+                input.ano(),
+                input.preco()
+        );
+
+        repository.salvar(veiculo);
+
+        return VeiculoAppMapper.veiculoParaResumoOutput(veiculo);
+    }
+
+    private void validarAno(int ano) {
+        int atual = Year.now().getValue();
+        if (ano < atual) {
+            throw new RegraNegocioException("Ano inválido");
+        }
     }
 }
