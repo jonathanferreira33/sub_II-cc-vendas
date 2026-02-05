@@ -1,9 +1,9 @@
 package com.cc.vendas.aplicacao.casosdeuso;
 
-import com.cc.vendas.dominio.venda.VendaVeiculo;
+import com.cc.vendas.aplicacao.dto.saida.VendaResumoOutput;
 
 import java.util.UUID;
 
 public interface VendaUseCase {
-    public VendaVeiculo venda(VendaVeiculo vendaVeiculo);
+    void registrarVenda(UUID id, String docComprador);
 }

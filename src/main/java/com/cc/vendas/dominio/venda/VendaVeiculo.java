@@ -1,5 +1,6 @@
 package com.cc.vendas.dominio.venda;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class VendaVeiculo {
@@ -7,11 +8,18 @@ public class VendaVeiculo {
     private UUID idVeiculo;
     private Double preco;
     private String docComprador;
+    private LocalDateTime dataVenda;
 
     public VendaVeiculo() {
     }
 
-    public VendaVeiculo(UUID id, UUID idVeiculo, Double preco, String docComprador) {
+    private VendaVeiculo(
+            UUID id,
+            UUID idVeiculo,
+            Double preco,
+            String docComprador,
+            LocalDateTime dataVenda
+    ) {
         this.id = id;
         this.idVeiculo = idVeiculo;
         this.preco = preco;
@@ -24,35 +32,23 @@ public class VendaVeiculo {
         this.docComprador = docComprador;
     }
 
-    public UUID getId() {
-        return id;
-    }
+    public UUID getId() { return id; }
+    public UUID getIdVeiculo() { return idVeiculo; }
+    public Double getPreco() { return preco; }
+    public String getDocComprador() { return docComprador; }
+    public LocalDateTime getDataVenda() { return dataVenda; }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getIdVeiculo() {
-        return idVeiculo;
-    }
-
-    public void setIdVeiculo(UUID idVeiculo) {
-        this.idVeiculo = idVeiculo;
-    }
-
-    public Double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
-
-    public String getDocComprador() {
-        return docComprador;
-    }
-
-    public void setDocComprador(String docComprador) {
-        this.docComprador = docComprador;
+    public static VendaVeiculo criar(
+            UUID idVeiculo,
+            Double preco,
+            String docComprador
+    ) {
+        return new VendaVeiculo(
+                UUID.randomUUID(),
+                idVeiculo,
+                preco,
+                docComprador,
+                LocalDateTime.now()
+        );
     }
 }

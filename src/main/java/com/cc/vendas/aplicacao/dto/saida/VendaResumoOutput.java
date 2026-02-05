@@ -1,11 +1,11 @@
-package com.cc.vendas.adaptadores.entrada.web.dto.requisicao;
+package com.cc.vendas.aplicacao.dto.saida;
 
 import java.util.UUID;
 
-public record RegistrarVendaRequest (
+public record VendaResumoOutput(
         UUID id,
         UUID idVeiculo,
         Double preco,
         String docComprador
-){
+) {
 }

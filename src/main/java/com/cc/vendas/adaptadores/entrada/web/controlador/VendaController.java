@@ -1,11 +1,12 @@
 package com.cc.vendas.adaptadores.entrada.web.controlador;
 
-import com.cc.vendas.adaptadores.entrada.web.dto.requisicao.RegistrarVendaRequest;
-import com.cc.vendas.adaptadores.entrada.web.dto.resposta.RegistrarVendaResponse;
 import com.cc.vendas.aplicacao.casosdeuso.VendaUseCase;
-import com.cc.vendas.dominio.venda.VendaVeiculo;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
@@ -18,14 +19,13 @@ public class VendaController {
         this.vendaVeiculoUseCase = vendaVeiculoUseCase;
     }
 
-    @PostMapping("/{idVeiculo}/vender")
-    public ResponseEntity<RegistrarVendaResponse> vender(
+    @PostMapping("/{idVeiculo}/registrar-venda")
+    public ResponseEntity<Void> registrarVenda(
             @PathVariable UUID idVeiculo,
-            @RequestBody RegistrarVendaRequest requisicao) {
+            @RequestParam String cpfComprador) {
 
-        VendaVeiculo venda = vendaVeiculoUseCase.venda(
-                new VendaVeiculo(idVeiculo, requisicao.preco(), requisicao.docComprador()));
-        return ResponseEntity.ok().build();
+        vendaVeiculoUseCase.registrarVenda(idVeiculo, cpfComprador);
+        return ResponseEntity.noContent().build();
     }
 
 }

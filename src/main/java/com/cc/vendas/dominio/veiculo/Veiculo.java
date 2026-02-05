@@ -44,6 +44,9 @@ public class Veiculo {
     public StatusVeiculo getStatus() { return status; }
     public String getDocComprador() { return docComprador; }
 
+    private void setStatus(StatusVeiculo status) {
+        this.status = status;
+    }
 
     public static Veiculo criar(
             String marca,
@@ -105,6 +108,10 @@ public class Veiculo {
         this.preco = preco;
     }
 
+    public void alterarStatusParaDisponivel() {
+        setStatus(StatusVeiculo.DISPONIVEL_PARA_VENDA);
+    }
+
     public void registrarVenda(String cpf) {
         if (this.status != StatusVeiculo.DISPONIVEL_PARA_VENDA)
             throw new RegraNegocioException("Veiculo indisponivel para venda");
@@ -112,6 +119,7 @@ public class Veiculo {
         this.docComprador = cpf;
         this.status = StatusVeiculo.VENDIDO;
     }
+
 
     public void validarEdicao() {
         if (this.status == StatusVeiculo.VENDIDO)

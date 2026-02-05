@@ -1,6 +1,7 @@
 package com.cc.vendas.aplicacao.servicos;
 
 import com.cc.vendas.aplicacao.casosdeuso.VeiculoUseCase;
+import com.cc.vendas.aplicacao.dto.entrada.AtualizarVeiculoInput;
 import com.cc.vendas.aplicacao.dto.entrada.RegistrarVeiculoInput;
 import com.cc.vendas.aplicacao.dto.mapper.VeiculoAppMapper;
 import com.cc.vendas.aplicacao.dto.saida.VeiculoResumoOutput;
@@ -25,9 +26,7 @@ public class VeiculoServiceImpl implements VeiculoUseCase {
     }
 
     @Override
-    public VeiculoResumoOutput atualizarDadosVeiculo(UUID id, RegistrarVeiculoInput veiculo) {
-        validarAno(veiculo.ano());
-
+    public VeiculoResumoOutput atualizarDadosVeiculo(UUID id, AtualizarVeiculoInput veiculo) {
         Veiculo veiculoEntity = repository.buscarPorId(id)
                 .orElseThrow(() -> new RegraNegocioException("Veículo não encontrado"));
 
@@ -42,7 +41,6 @@ public class VeiculoServiceImpl implements VeiculoUseCase {
         repository.salvar(veiculoEntity);
 
         return VeiculoAppMapper.veiculoParaResumoOutput(veiculoEntity);
-
     }
 
     @Override
@@ -79,6 +77,8 @@ public class VeiculoServiceImpl implements VeiculoUseCase {
                 input.ano(),
                 input.preco()
         );
+
+        veiculo.alterarStatusParaDisponivel();
 
         repository.salvar(veiculo);
 

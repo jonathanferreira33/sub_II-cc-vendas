@@ -24,26 +24,20 @@ public class VeiculoRepositoryImpl implements VeiculoRepository {
     public Veiculo salvar(Veiculo veiculo) {
         JpaVeiculoEntity entity = VeiculoJpaMapper.dominioParaJpa(veiculo);
         this.repository.save(entity);
-        return VeiculoJpaMapper.dominioParaJpa(entity);
+        return VeiculoJpaMapper.jpaParaDominio(entity);
     }
 
     @Override
     public Optional<Veiculo> buscarPorId(UUID id) {
         return repository.findById(id)
-                .map(VeiculoJpaMapper::dominioParaJpa);
+                .map(VeiculoJpaMapper::jpaParaDominio);
     }
 
     @Override
     public List<Veiculo> buscarTodosVeiculosPorStatusOrdenadoPorPreco(String status) {
         return repository.findByStatusVeiculoOrderByPrecoAsc(status)
                 .stream()
-                .map(VeiculoJpaMapper::dominioParaJpa)
+                .map(VeiculoJpaMapper::jpaParaDominio)
                 .toList();
-    }
-
-    @Override
-    public JpaVeiculoEntity buscarEntidadePorId(UUID id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Veiculo não encontrado"));
     }
 }
