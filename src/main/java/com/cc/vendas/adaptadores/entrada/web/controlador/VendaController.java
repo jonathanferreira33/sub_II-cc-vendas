@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/veiculos")
+@RequestMapping("api/veiculos")
 public class VendaController {
     private final VendaUseCase vendaVeiculoUseCase;
 

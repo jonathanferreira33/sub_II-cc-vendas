@@ -2,8 +2,6 @@ package com.cc.vendas.adaptadores.saida.mapper;
 import com.cc.vendas.adaptadores.saida.entidades.JpaVendaVeiculoEntity;
 import com.cc.vendas.dominio.venda.VendaVeiculo;
 
-import java.time.LocalDateTime;
-
 public class VendaVeiculoJpaMapper {
 
     public static JpaVendaVeiculoEntity dominioParaJpa(VendaVeiculo veiculo) {

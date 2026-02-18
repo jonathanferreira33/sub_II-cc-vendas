@@ -1,7 +1,5 @@
 package com.cc.vendas.dominio.veiculo;
 
-import com.cc.vendas.adaptadores.saida.entidades.JpaVeiculoEntity;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

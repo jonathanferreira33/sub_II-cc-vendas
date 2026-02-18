@@ -10,6 +10,7 @@ public class VeiculoAppMapper {
                 veiculo.getId(),
                 veiculo.getMarca(),
                 veiculo.getModelo(),
+                veiculo.getCor(),
                 veiculo.getAno(),
                 veiculo.getPreco(),
                 veiculo.getStatus()
