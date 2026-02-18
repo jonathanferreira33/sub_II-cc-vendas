@@ -3,7 +3,7 @@ package com.cc.vendas.adaptadores.entrada.web.controlador;
 import com.cc.vendas.adaptadores.entrada.web.dto.requisicao.AtualizarVeiculoRequest;
 import com.cc.vendas.adaptadores.entrada.web.dto.requisicao.RegistrarVeiculoRequest;
 import com.cc.vendas.adaptadores.entrada.web.dto.resposta.VeiculoResumoResponse;
-import com.cc.vendas.adaptadores.entrada.web.mapper.VeiculoWebMapper;
+import com.cc.vendas.adaptadores.entrada.web.mapper.VeiculoMapperWeb;
 import com.cc.vendas.aplicacao.casosdeuso.VeiculoUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,56 +28,56 @@ public class VeiculoController {
         this.useCase = useCase;
     }
 
-    @GetMapping("/listar-veiculos-disponiveis")
-    public ResponseEntity<List<VeiculoResumoResponse>> listarDisponiveis () {
+    @GetMapping("/disponiveis")
+    public ResponseEntity<List<VeiculoResumoResponse>> buscarVeiculosDisponiveis () {
         return ResponseEntity.ok(
-                VeiculoWebMapper.listaResumoOutputParaResponse(
+                VeiculoMapperWeb.listaResumoOutputParaResponse(
                         useCase.buscarVeiculosDisponiveis()
                 )
         );
     }
 
-    @GetMapping("/listar-veiculos-vendidos")
-    public ResponseEntity<List<VeiculoResumoResponse>> listarVendidos () {
+    @GetMapping("/vendidos")
+    public ResponseEntity<List<VeiculoResumoResponse>> buscarVeiculosVendidos () {
         return ResponseEntity.ok(
-                VeiculoWebMapper.listaResumoOutputParaResponse(
+                VeiculoMapperWeb.listaResumoOutputParaResponse(
                         useCase.buscarVeiculosVendidos()
                 )
         );
     }
 
-    @GetMapping("/{idVeiculo}/encontrar-veiculo")
-    public ResponseEntity<VeiculoResumoResponse> listarVendidos (@PathVariable UUID idVeiculo) {
+    @GetMapping("/{idVeiculo}")
+    public ResponseEntity<VeiculoResumoResponse> buscarVeiculo (@PathVariable UUID idVeiculo) {
         return useCase.buscarVeiculoPorId(idVeiculo)
-                .map(VeiculoWebMapper::resumoOutputParaResponse)
+                .map(VeiculoMapperWeb::resumoOutputParaResponse)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<VeiculoResumoResponse> cadastrar(RegistrarVeiculoRequest veiculoRequest) {
+    public ResponseEntity<VeiculoResumoResponse> cadastrar(@RequestBody RegistrarVeiculoRequest veiculoRequest) {
         var output = useCase.cadastrarVeiculo(
-                VeiculoWebMapper.registrarVeiculoRequestParaInput(veiculoRequest)
+                VeiculoMapperWeb.registrarVeiculoRequestParaInput(veiculoRequest)
         );
 
-        var response = VeiculoWebMapper.resumoOutputParaResponse(output);
+        var response = VeiculoMapperWeb.resumoOutputParaResponse(output);
 
         return ResponseEntity
                 .created(URI.create("/api/veiculos/" + response.id()))
                 .body(response);
     }
 
-    @PutMapping("/{idVeiculo}/editar")
+    @PutMapping("/{idVeiculo}")
     public ResponseEntity<VeiculoResumoResponse> atualizar(
             @PathVariable UUID idVeiculo,
             @RequestBody AtualizarVeiculoRequest request) {
 
         var output = useCase.atualizarDadosVeiculo(
                 idVeiculo,
-                VeiculoWebMapper.atualizarRequestParaAtualizarInput(request)
+                VeiculoMapperWeb.atualizarRequestParaAtualizarInput(request)
         );
 
-        var response = VeiculoWebMapper.resumoOutputParaResponse(output);
+        var response = VeiculoMapperWeb.resumoOutputParaResponse(output);
 
         return ResponseEntity.ok(response);
     }

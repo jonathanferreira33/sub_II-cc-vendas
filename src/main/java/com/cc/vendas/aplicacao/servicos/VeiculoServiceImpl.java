@@ -86,8 +86,8 @@ public class VeiculoServiceImpl implements VeiculoUseCase {
     }
 
     private void validarAno(int ano) {
-        int atual = Year.now().getValue();
-        if (ano < atual) {
+        int primeiroCarro = 1886;
+        if (ano < primeiroCarro) {
             throw new RegraNegocioException("Ano inválido");
         }
     }

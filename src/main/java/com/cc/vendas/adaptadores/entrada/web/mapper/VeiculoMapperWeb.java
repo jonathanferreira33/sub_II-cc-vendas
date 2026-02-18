@@ -6,11 +6,10 @@ import com.cc.vendas.adaptadores.entrada.web.dto.resposta.VeiculoResumoResponse;
 import com.cc.vendas.aplicacao.dto.entrada.AtualizarVeiculoInput;
 import com.cc.vendas.aplicacao.dto.entrada.RegistrarVeiculoInput;
 import com.cc.vendas.aplicacao.dto.saida.VeiculoResumoOutput;
-import com.cc.vendas.dominio.veiculo.StatusVeiculo;
 
 import java.util.List;
 
-public class VeiculoWebMapper {
+public class VeiculoMapperWeb {
 
     public static RegistrarVeiculoInput registrarVeiculoRequestParaInput(RegistrarVeiculoRequest request) {
         return new RegistrarVeiculoInput(
@@ -46,7 +45,7 @@ public class VeiculoWebMapper {
 
     public static List<VeiculoResumoResponse> listaResumoOutputParaResponse(List<VeiculoResumoOutput> outputs) {
         return outputs.stream()
-                .map(VeiculoWebMapper::resumoOutputParaResponse)
+                .map(VeiculoMapperWeb::resumoOutputParaResponse)
                 .toList();
     }
 }

@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 public class JpaVeiculoEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
     private String marca;
@@ -23,13 +23,80 @@ public class JpaVeiculoEntity {
     @Column
     private String docComprador;
 
-    public JpaVeiculoEntity(String marca, String modelo, String cor, Integer ano, Double preco, String statusVeiculo, String docComprador) {
+    public JpaVeiculoEntity() { }
+
+    public JpaVeiculoEntity(UUID id, String marca, String modelo, String cor, Integer ano, Double preco, String statusVeiculo, String docComprador) {
+        this.id = id;
         this.marca = marca;
         this.modelo = modelo;
         this.cor = cor;
         this.ano = ano;
         this.preco = preco;
         this.statusVeiculo = statusVeiculo;
+        this.docComprador = docComprador;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
+    }
+
+    public Double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
+    public String getStatusVeiculo() {
+        return statusVeiculo;
+    }
+
+    public void setStatusVeiculo(String statusVeiculo) {
+        this.statusVeiculo = statusVeiculo;
+    }
+
+    public String getDocComprador() {
+        return docComprador;
+    }
+
+    public void setDocComprador(String docComprador) {
         this.docComprador = docComprador;
     }
 }
