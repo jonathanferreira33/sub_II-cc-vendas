@@ -11,7 +11,7 @@ import com.cc.vendas.dominio.veiculo.Veiculo;
 import com.cc.vendas.dominio.veiculo.VeiculoRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.Year;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -87,7 +87,8 @@ public class VeiculoServiceImpl implements VeiculoUseCase {
 
     private void validarAno(int ano) {
         int primeiroCarro = 1886;
-        if (ano < primeiroCarro) {
+        int anoAtual = LocalDateTime.now().getYear();
+        if (ano < primeiroCarro || ano > anoAtual ) {
             throw new RegraNegocioException("Ano inválido");
         }
     }

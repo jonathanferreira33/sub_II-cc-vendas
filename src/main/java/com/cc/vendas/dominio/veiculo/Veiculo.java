@@ -2,6 +2,7 @@ package com.cc.vendas.dominio.veiculo;
 
 import com.cc.vendas.dominio.excecao.RegraNegocioException;
 
+import java.time.Instant;
 import java.util.UUID;
 
 public class Veiculo {
@@ -13,6 +14,7 @@ public class Veiculo {
     private Double preco;
     private StatusVeiculo status;
     private String docComprador;
+    private Instant dataVenda;
 
     public Veiculo() {
         this.status = StatusVeiculo.ANALISE;
@@ -43,6 +45,7 @@ public class Veiculo {
     public Double getPreco() { return preco; }
     public StatusVeiculo getStatus() { return status; }
     public String getDocComprador() { return docComprador; }
+    public Instant getDataVenda() { return dataVenda; }
 
     private void setStatus(StatusVeiculo status) {
         this.status = status;
@@ -74,7 +77,8 @@ public class Veiculo {
             Integer ano,
             Double preco,
             StatusVeiculo status,
-            String docComprador
+            String docComprador,
+            Instant dataVenda
     ) {
         Veiculo veiculo = new Veiculo(
                 id,
@@ -87,6 +91,9 @@ public class Veiculo {
 
         veiculo.status = status;
         veiculo.docComprador = docComprador;
+
+        if (dataVenda != null)
+            veiculo.dataVenda = dataVenda;
 
         return veiculo;
     }
@@ -118,6 +125,7 @@ public class Veiculo {
 
         this.docComprador = cpf;
         this.status = StatusVeiculo.VENDIDO;
+        this.dataVenda = Instant.now();
     }
 
 

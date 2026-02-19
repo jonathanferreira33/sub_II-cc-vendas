@@ -17,7 +17,8 @@ public class VeiculoJpaMapper {
                 veiculo.getAno(),
                 veiculo.getPreco(),
                 veiculo.getStatus().name(),
-                veiculo.getDocComprador()
+                veiculo.getDocComprador(),
+                veiculo.getDataVenda()
             );
         }
 
@@ -34,7 +35,8 @@ public class VeiculoJpaMapper {
                 entidade.getAno(),
                 entidade.getPreco(),
                 StatusVeiculo.valueOf(entidade.getStatusVeiculo()),
-                entidade.getDocComprador()
+                entidade.getDocComprador(),
+                entidade.getDataVenda()
         );
     }
 }

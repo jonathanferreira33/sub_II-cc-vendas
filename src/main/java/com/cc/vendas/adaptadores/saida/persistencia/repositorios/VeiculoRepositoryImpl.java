@@ -4,7 +4,6 @@ import com.cc.vendas.adaptadores.saida.entidades.JpaVeiculoEntity;
 import com.cc.vendas.adaptadores.saida.mapper.VeiculoJpaMapper;
 import com.cc.vendas.dominio.veiculo.Veiculo;
 import com.cc.vendas.dominio.veiculo.VeiculoRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

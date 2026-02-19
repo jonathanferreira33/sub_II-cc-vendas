@@ -39,7 +39,8 @@ public class VeiculoMapperWeb {
                 output.cor(),
                 output.ano(),
                 output.preco(),
-                output.statusVeiculo()
+                output.statusVeiculo(),
+                output.dataVenda()
         );
     }
 

@@ -1,18 +1,19 @@
-package com.cc.vendas.adaptadores.entrada.web.controlador;
+package com.cc.vendas.adaptadores.entrada.web.controller;
 
 import com.cc.vendas.adaptadores.entrada.web.dto.requisicao.AtualizarVeiculoRequest;
 import com.cc.vendas.adaptadores.entrada.web.dto.requisicao.RegistrarVeiculoRequest;
 import com.cc.vendas.adaptadores.entrada.web.dto.resposta.VeiculoResumoResponse;
 import com.cc.vendas.adaptadores.entrada.web.mapper.VeiculoMapperWeb;
 import com.cc.vendas.aplicacao.casosdeuso.VeiculoUseCase;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.List;

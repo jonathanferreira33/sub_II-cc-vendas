@@ -1,4 +1,4 @@
-package com.cc.vendas.adaptadores.entrada.web.controlador;
+package com.cc.vendas.adaptadores.entrada.web.controller;
 
 import com.cc.vendas.aplicacao.casosdeuso.VendaUseCase;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/veiculos")
+@RequestMapping("api/vendas")
 public class VendaController {
     private final VendaUseCase vendaVeiculoUseCase;
 

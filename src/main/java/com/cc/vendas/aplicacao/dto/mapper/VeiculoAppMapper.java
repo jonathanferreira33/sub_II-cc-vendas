@@ -13,7 +13,8 @@ public class VeiculoAppMapper {
                 veiculo.getCor(),
                 veiculo.getAno(),
                 veiculo.getPreco(),
-                veiculo.getStatus()
+                veiculo.getStatus(),
+                veiculo.getDataVenda()
         );
     }
 }
