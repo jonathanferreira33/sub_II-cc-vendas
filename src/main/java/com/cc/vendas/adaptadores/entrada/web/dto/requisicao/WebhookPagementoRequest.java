@@ -7,6 +7,7 @@ import java.util.UUID;
 public record WebhookPagementoRequest(
         UUID vendaId,
         Double valor,
-        String codigoPagamento
+        String codigoPagamento,
+        StatusPagamento statusPagamento
 ) {
 }

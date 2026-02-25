@@ -8,6 +8,8 @@ import com.cc.vendas.aplicacao.dto.saida.PagamentoOutput;
 import com.cc.vendas.dominio.pagamento.Pagamento;
 import com.cc.vendas.dominio.pagamento.PagamentoRepository;
 
+import java.util.Optional;
+
 public class PagamentoServiceImpl implements ConfirmarPagamentoUseCase {
 
     private final PagamentoRepository repository;
@@ -34,6 +36,11 @@ public class PagamentoServiceImpl implements ConfirmarPagamentoUseCase {
     @Override
     public void confirmar(ConfirmacaoPagamentoInput input) {
 
+        Optional<Pagamento> pagamento = repository.buscarPagamentoPorCodPagamento(input.codigoPagamento());
 
+        if (pagamento.isPresent()) {
+            pagamento.get().atualizarStatus(input.statusPagamento());
+            repository.salvar(pagamento.get());
+        }
     }
 }

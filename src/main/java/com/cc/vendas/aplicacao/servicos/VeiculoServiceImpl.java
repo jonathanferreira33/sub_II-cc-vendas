@@ -9,14 +9,12 @@ import com.cc.vendas.dominio.excecao.RegraNegocioException;
 import com.cc.vendas.dominio.veiculo.StatusVeiculo;
 import com.cc.vendas.dominio.veiculo.Veiculo;
 import com.cc.vendas.dominio.veiculo.VeiculoRepository;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
 public class VeiculoServiceImpl implements VeiculoUseCase {
 
     private final VeiculoRepository repository;

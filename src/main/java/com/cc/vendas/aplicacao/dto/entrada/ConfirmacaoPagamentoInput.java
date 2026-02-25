@@ -7,7 +7,8 @@ import java.util.UUID;
 public record ConfirmacaoPagamentoInput(
         UUID vendaId,
         Double valor,
-        String codigoPagamento
+        String codigoPagamento,
+        StatusPagamento statusPagamento
 ) {
     public ConfirmacaoPagamentoInput {
         if (codigoPagamento == null || codigoPagamento.isBlank())

@@ -28,4 +28,17 @@ public class PagamentoRepositoryImpl implements PagamentoRepository {
         return repository.findById(id)
                 .map(PagamentoMapper::jpaParaDominio);
     }
+
+    @Override
+    public Optional<Pagamento> buscarPagamentoPorCodPagamento(String codPagamento) {
+        JpaPagamentoEntity pagamento = repository.findByCodigoPagamento(codPagamento);
+
+        return pagamento != null ? Optional.of(PagamentoMapper.jpaParaDominio(pagamento)) : Optional.empty();
+    }
+
+    @Override
+    public void salvar(Pagamento pagamento) {
+        JpaPagamentoEntity pagamentoEntity = PagamentoMapper.dominioParaJpa(pagamento);
+        repository.save(pagamentoEntity);
+    }
 }
