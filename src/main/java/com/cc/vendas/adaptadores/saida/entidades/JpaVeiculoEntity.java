@@ -3,6 +3,7 @@ package com.cc.vendas.adaptadores.saida.entidades;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -19,13 +20,14 @@ public class JpaVeiculoEntity {
     private Integer ano;
     private Double preco;
     private String statusVeiculo;
+    private Instant dataVenda;
 
     @Column
     private String docComprador;
 
-    public JpaVeiculoEntity() { }
+    protected JpaVeiculoEntity() { }
 
-    public JpaVeiculoEntity(UUID id, String marca, String modelo, String cor, Integer ano, Double preco, String statusVeiculo, String docComprador) {
+    public JpaVeiculoEntity(UUID id, String marca, String modelo, String cor, Integer ano, Double preco, String statusVeiculo, String docComprador, Instant dataVenda) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;
@@ -34,6 +36,7 @@ public class JpaVeiculoEntity {
         this.preco = preco;
         this.statusVeiculo = statusVeiculo;
         this.docComprador = docComprador;
+        this.dataVenda = dataVenda;
     }
 
     public UUID getId() {
@@ -99,4 +102,8 @@ public class JpaVeiculoEntity {
     public void setDocComprador(String docComprador) {
         this.docComprador = docComprador;
     }
+
+    public Instant getDataVenda() { return dataVenda; }
+
+    public void setDataVenda(Instant dataVenda) { this.dataVenda = dataVenda; }
 }

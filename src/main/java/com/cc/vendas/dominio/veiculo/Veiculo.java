@@ -1,18 +1,22 @@
 package com.cc.vendas.dominio.veiculo;
 
 import com.cc.vendas.dominio.excecao.RegraNegocioException;
+import com.cc.vendas.dominio.valueobjects.Cor;
+import com.cc.vendas.dominio.valueobjects.Marca;
 
+import java.time.Instant;
 import java.util.UUID;
 
 public class Veiculo {
     private UUID id;
-    private String marca;
+    private Marca marca;
     private String modelo;
-    private String cor;
+    private Cor cor;
     private Integer ano;
     private Double preco;
     private StatusVeiculo status;
     private String docComprador;
+    private Instant dataVenda;
 
     public Veiculo() {
         this.status = StatusVeiculo.ANALISE;
@@ -20,9 +24,9 @@ public class Veiculo {
 
     private Veiculo(
             UUID id,
-            String marca,
+            Marca marca,
             String modelo,
-            String cor,
+            Cor cor,
             Integer ano,
             Double preco
     ) {
@@ -36,31 +40,34 @@ public class Veiculo {
     }
 
     public UUID getId() { return id; }
-    public String getMarca() { return marca; }
+    public Marca getMarca() { return marca; }
     public String getModelo() { return modelo; }
-    public String getCor() { return cor; }
+    public Cor getCor() { return cor; }
     public Integer getAno() { return ano; }
     public Double getPreco() { return preco; }
     public StatusVeiculo getStatus() { return status; }
     public String getDocComprador() { return docComprador; }
+    public Instant getDataVenda() { return dataVenda; }
 
     private void setStatus(StatusVeiculo status) {
         this.status = status;
     }
 
     public static Veiculo criar(
-            String marca,
+            String marcaRaw,
             String modelo,
-            String cor,
+            String corRaw,
             Integer ano,
             Double preco
     ) {
-        validarCampos(marca, modelo, cor, ano, preco);
+        Cor corObjeto = new Cor(corRaw);
+        Marca marcaObjeto = new Marca(marcaRaw);
+        validarCampos(marcaObjeto, modelo, corObjeto, ano, preco);
         return new Veiculo(
                 UUID.randomUUID(),
-                marca,
+                marcaObjeto,
                 modelo,
-                cor,
+                corObjeto,
                 ano,
                 preco
         );
@@ -68,19 +75,20 @@ public class Veiculo {
 
     public static Veiculo reconstituir(
             UUID id,
-            String marca,
+            String marcaRaw,
             String modelo,
-            String cor,
+            String corRaw,
             Integer ano,
             Double preco,
             StatusVeiculo status,
-            String docComprador
+            String docComprador,
+            Instant dataVenda
     ) {
         Veiculo veiculo = new Veiculo(
                 id,
-                marca,
+                new Marca(marcaRaw),
                 modelo,
-                cor,
+                new Cor(corRaw),
                 ano,
                 preco
         );
@@ -88,22 +96,27 @@ public class Veiculo {
         veiculo.status = status;
         veiculo.docComprador = docComprador;
 
+        if (dataVenda != null)
+            veiculo.dataVenda = dataVenda;
+
         return veiculo;
     }
 
     public void atualizarDados(
-            String marca,
+            String marcaRaw,
             String modelo,
-            String cor,
+            String corRaw,
             Integer ano,
             Double preco
     ) {
         validarEdicao();
-        validarCampos(marca, modelo, cor, ano, preco);
+        Cor novaCor = new Cor(corRaw);
+        Marca novaMarca = new Marca(marcaRaw);
+        validarCampos(novaMarca, modelo, novaCor, ano, preco);
 
-        this.marca = marca;
+        this.marca = novaMarca;
         this.modelo = modelo;
-        this.cor = cor;
+        this.cor = novaCor;
         this.ano = ano;
         this.preco = preco;
     }
@@ -118,8 +131,8 @@ public class Veiculo {
 
         this.docComprador = cpf;
         this.status = StatusVeiculo.VENDIDO;
+        this.dataVenda = Instant.now();
     }
-
 
     public void validarEdicao() {
         if (this.status == StatusVeiculo.VENDIDO)
@@ -127,20 +140,20 @@ public class Veiculo {
     }
 
     private static void validarCampos(
-            String marca,
+            Marca marca,
             String modelo,
-            String cor,
+            Cor cor,
             Integer ano,
             Double preco
     ) {
-        if (marca == null || marca.isBlank())
+        if (marca == null)
             throw new RegraNegocioException("Marca obrigatória");
 
         if (modelo == null || modelo.isBlank())
             throw new RegraNegocioException("Modelo obrigatório");
 
-        if (cor == null || cor.isBlank())
-            throw new RegraNegocioException("Modelo obrigatório");
+        if (cor == null)
+            throw new RegraNegocioException("Cor obrigatória");
 
         if (ano == null || ano <= 0)
             throw new RegraNegocioException("Ano inválido");

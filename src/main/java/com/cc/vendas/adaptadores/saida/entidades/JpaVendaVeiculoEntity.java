@@ -4,6 +4,7 @@ import com.cc.vendas.shared.infrastructure.persistence.BaseJpaEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,7 +21,10 @@ public class JpaVendaVeiculoEntity extends BaseJpaEntity {
     private String docComprador;
     private LocalDateTime dataCompra;
 
+    protected JpaVendaVeiculoEntity() {}
+
     public JpaVendaVeiculoEntity(UUID idVeiculo, Double preco, String docComprador, LocalDateTime dataCompra) {
+        this.id = UUID.randomUUID();
         this.idVeiculo = idVeiculo;
         this.preco = preco;
         this.docComprador = docComprador;

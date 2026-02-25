@@ -11,13 +11,14 @@ public class VeiculoJpaMapper {
     public static JpaVeiculoEntity dominioParaJpa(Veiculo veiculo) {
         return new JpaVeiculoEntity(
                 veiculo.getId(),
-                veiculo.getMarca(),
+                veiculo.getMarca().toString(),
                 veiculo.getModelo(),
-                veiculo.getCor(),
+                veiculo.getCor().toString(),
                 veiculo.getAno(),
                 veiculo.getPreco(),
                 veiculo.getStatus().name(),
-                veiculo.getDocComprador()
+                veiculo.getDocComprador(),
+                veiculo.getDataVenda()
             );
         }
 
@@ -34,7 +35,8 @@ public class VeiculoJpaMapper {
                 entidade.getAno(),
                 entidade.getPreco(),
                 StatusVeiculo.valueOf(entidade.getStatusVeiculo()),
-                entidade.getDocComprador()
+                entidade.getDocComprador(),
+                entidade.getDataVenda()
         );
     }
 }

@@ -6,12 +6,9 @@ import com.cc.vendas.dominio.veiculo.Veiculo;
 import com.cc.vendas.dominio.veiculo.VeiculoRepository;
 import com.cc.vendas.dominio.venda.VendaVeiculo;
 import com.cc.vendas.dominio.venda.VendaVeiculoRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
 public class VendaVeiculoServiceImpl implements VendaUseCase {
 
     private final VeiculoRepository veiculoRepositoryPort;
@@ -24,7 +21,6 @@ public class VendaVeiculoServiceImpl implements VendaUseCase {
     }
 
     @Override
-    @Transactional
     public void registrarVenda(UUID id, String docComprador) {
         Veiculo veiculo = veiculoRepositoryPort.buscarPorId(id)
                 .orElseThrow(() -> new RegraNegocioException("Veículo não encontrado"));

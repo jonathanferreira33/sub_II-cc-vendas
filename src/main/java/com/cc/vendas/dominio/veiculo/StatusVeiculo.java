@@ -1,10 +1,18 @@
 package com.cc.vendas.dominio.veiculo;
 
 import com.cc.vendas.dominio.excecao.RegraNegocioException;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Status possível de um veículo")
 public enum StatusVeiculo {
+
+    @Schema(description = "Veículo em análise interna")
     ANALISE,
+
+    @Schema(description = "Veículo disponível para venda")
     DISPONIVEL_PARA_VENDA,
+
+    @Schema(description = "Veículo já vendido")
     VENDIDO;
 
     public static StatusVeiculo fromString(String status) {
