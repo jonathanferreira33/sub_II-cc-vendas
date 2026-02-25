@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Component
 @Transactional
 public class VendaUseCaseTransactional implements VendaUseCase {
 

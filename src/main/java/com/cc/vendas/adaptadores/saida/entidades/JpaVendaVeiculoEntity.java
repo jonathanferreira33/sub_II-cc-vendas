@@ -4,6 +4,7 @@ import com.cc.vendas.shared.infrastructure.persistence.BaseJpaEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 

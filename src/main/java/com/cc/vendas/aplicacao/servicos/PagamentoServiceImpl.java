@@ -10,6 +10,7 @@ import com.cc.vendas.dominio.pagamento.PagamentoRepository;
 
 import java.util.Optional;
 
+
 public class PagamentoServiceImpl implements ConfirmarPagamentoUseCase {
 
     private final PagamentoRepository repository;

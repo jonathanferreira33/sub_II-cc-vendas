@@ -4,10 +4,12 @@ import com.cc.vendas.adaptadores.saida.entidades.JpaPagamentoEntity;
 import com.cc.vendas.adaptadores.saida.mapper.PagamentoMapper;
 import com.cc.vendas.dominio.pagamento.Pagamento;
 import com.cc.vendas.dominio.pagamento.PagamentoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Repository
 public class PagamentoRepositoryImpl implements PagamentoRepository {
 
     private final JpaPagamentoRepository repository;
