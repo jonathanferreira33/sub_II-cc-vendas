@@ -8,9 +8,9 @@ public class VeiculoAppMapper {
     public static VeiculoResumoOutput veiculoParaResumoOutput(Veiculo veiculo) {
         return new VeiculoResumoOutput(
                 veiculo.getId(),
-                veiculo.getMarca(),
+                veiculo.getMarca().toString(),
                 veiculo.getModelo(),
-                veiculo.getCor(),
+                veiculo.getCor().toString(),
                 veiculo.getAno(),
                 veiculo.getPreco(),
                 veiculo.getStatus(),

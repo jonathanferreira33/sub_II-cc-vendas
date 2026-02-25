@@ -8,6 +8,8 @@ import com.cc.vendas.aplicacao.casosdeuso.VeiculoUseCase;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,6 +37,28 @@ public class VeiculoController {
         this.useCase = useCase;
     }
 
+    @Operation(
+            summary = "Listar veículos disponíveis",
+            description = "Retorna todos os veículos que ainda não foram vendidos."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Lista de veículos disponíveis retornada com sucesso",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = VeiculoResumoResponse.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Nenhum veículo disponível encontrado"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Erro interno do servidor"
+            )
+    })
     @GetMapping("/disponiveis")
     public ResponseEntity<List<VeiculoResumoResponse>> buscarVeiculosDisponiveis () {
         return ResponseEntity.ok(
