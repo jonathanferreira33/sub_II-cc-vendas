@@ -1,7 +1,6 @@
 package com.cc.vendas.infraestrutura.global;
 
 import com.cc.vendas.aplicacao.casosdeuso.VendaUseCase;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;

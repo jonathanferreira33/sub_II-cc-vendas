@@ -1,15 +1,14 @@
 version: "3.8"
 services:
-  h2:
-    image: oscarfonts/h2
-    container_name: h2-db
+  app-subiifiap:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: subiifiap-api
     ports:
-      - "9092:9092"
-      - "8082:8082"
-    volumes:
-      - h2-data:/opt/h2-data
+      - "8080:8080"
     environment:
-      H2_OPTIONS: -ifNotExists
-
-volumes:
-  h2-data:
+      - SPRING_PROFILES_ACTIVE=dev
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
