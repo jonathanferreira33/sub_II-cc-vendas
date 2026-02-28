@@ -1,6 +1,7 @@
 package com.cc.vendas.infraestrutura.adaptadores.entrada.web.controller;
 
 import com.cc.vendas.aplicacao.casosdeuso.VendaUseCase;
+import com.cc.vendas.infraestrutura.adaptadores.entrada.web.dto.requisicao.RegistrarVendaRequest;
 import com.cc.vendas.infraestrutura.erro.ApiErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.UUID;
@@ -58,6 +60,14 @@ public class VendaController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Erro desconhecido",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)
+                    )
             )
     })
     @PostMapping("/{idVeiculo}/registrar-venda")
@@ -68,11 +78,17 @@ public class VendaController {
                     example = "123j4567-e89b-12j3-a456-426614194000"
             )
             @PathVariable UUID idVeiculo,
-            @RequestBody String cpfComprador) {
+            @RequestBody RegistrarVendaRequest request) {
 
-        vendaVeiculoUseCase.registrarVenda(idVeiculo, cpfComprador);
+        vendaVeiculoUseCase.registrarVenda(idVeiculo, request.docComprador());
 
-        return ResponseEntity.created(URI.create("/api/veiculos/{idVeiculo}")).build();
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/api/veiculos/{id}")
+                .buildAndExpand(idVeiculo)
+                .toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
 }
