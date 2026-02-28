@@ -20,7 +20,7 @@ O projeto utiliza a estrutura de Ports and Adapters (Arquitetura Hexagonal). O o
 ### Divisão de Camadas:
 
 *Dominio*: Contém a lógica de negócio.
-- model: Entidades de negócio (ex: Venda, Produto).
+- model: Entidades de negócio (ex: Venda, Veiculo).
     
 - repository: Interfaces que definem o que o domínio precisa (Ports).
 
@@ -76,6 +76,11 @@ kubectl apply -f k8s/
 kubectl get svc subiifiap-service
 kubectl get endpoints subiifiap-service
 # formas de confirmar a execução do serviço
+
+kubectl get pods
+
+kubectl port-forward svc/subiifiap-service 8080:8080
+# cria tunel do computador para o Service do Kubernetes
 ```
 
 *2ª Opção:* Docker Compose
@@ -188,28 +193,28 @@ O banco de dados *H2 Database* está em execução junto a aplicação para demo
 {
     "marca": "Ford",
     "modelo": "Mustang Fastback",
-    "cor": "Vermelho Wimbledon",
+    "cor": "Vermelho",
     "ano": 1965,
     "preco": 185000.00
 },
 {
     "marca": "Ford",
     "modelo": "Mustang Shelby GT500",
-    "cor": "Azul Nightmist",
+    "cor": "Azul",
     "ano": 1967,
     "preco": 420000.00
 },
 {
     "marca": "Ford",
     "modelo": "Mustang Boss 429",
-    "cor": "Preto Raven",
+    "cor": "Preto",
     "ano": 1969,
     "preco": 780000.00
 },
 {
     "marca": "Ford",
     "modelo": "Mustang Mach 1",
-    "cor": "Amarelo Grabber",
+    "cor": "Amarelo",
     "ano": 1970,
     "preco": 265000.00
 }

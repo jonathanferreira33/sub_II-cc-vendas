@@ -31,4 +31,9 @@ public record Cor(String valor) {
 
        valor = valorNormalizado;
     }
+
+    @Override
+    public String toString() {
+        return valor;
+    }
 }

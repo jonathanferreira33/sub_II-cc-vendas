@@ -9,9 +9,9 @@ public class VeiculoJpaMapper {
     public static JpaVeiculoEntity dominioParaJpa(Veiculo veiculo) {
         return new JpaVeiculoEntity(
                 veiculo.getId(),
-                veiculo.getMarca().toString(),
+                veiculo.getMarca() != null ? veiculo.getMarca().valor() : null ,
                 veiculo.getModelo(),
-                veiculo.getCor().toString(),
+                veiculo.getCor() != null ? veiculo.getCor().valor() : null,
                 veiculo.getAno(),
                 veiculo.getPreco(),
                 veiculo.getStatus().name(),
