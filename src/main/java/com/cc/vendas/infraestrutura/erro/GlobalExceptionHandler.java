@@ -10,22 +10,26 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.OffsetDateTime;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.cc.vendas.adaptadores.entrada.web")
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(RegraNegocioException.class)
-    public ResponseEntity<ApiErrorResponse> handleRegraNegocio(RegraNegocioException ex, HttpServletRequest request) {
-        return buildResponse(HttpStatus.UNPROCESSABLE_ENTITY, "Erro de regra de negócio", ex.getMessage(), request);
-    }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ApiErrorResponse> handleNotFound(EntityNotFoundException ex, HttpServletRequest request) {
-        return buildResponse(HttpStatus.NOT_FOUND, "Recurso não encontrado", ex.getMessage(), request);
-    }
-
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleGenerica(Exception ex, HttpServletRequest request) {
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno", "Erro inesperado. Contate o suporte.", request);
+    public ResponseEntity<ApiErrorResponse> handleGenerica(
+            Exception ex,
+            HttpServletRequest request) {
+
+        String path = request.getRequestURI();
+
+        if (path.startsWith("/v3/api-docs") || path.startsWith("/swagger-ui")) {
+            throw new RuntimeException(ex);
+        }
+
+        return buildResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Erro interno",
+                "Erro inesperado. Contate o suporte.",
+                request
+        );
     }
 
     private ResponseEntity<ApiErrorResponse> buildResponse(
