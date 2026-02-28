@@ -17,23 +17,26 @@ spec:
       containers:
         - name: subiifiap-api
           image: subiifiap-core:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
-
+          envFrom:
+            - configMapRef:
+                name: spring-app-config
+            - secretRef:
+                name: spring-app-secret
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: 8080
-            initialDelaySeconds: 20
-            periodSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 15
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 8080
-            initialDelaySeconds: 20
-            periodSeconds: 10
-
+            initialDelaySeconds: 60
+            periodSeconds: 15
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "dev"
