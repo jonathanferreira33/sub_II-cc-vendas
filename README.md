@@ -91,11 +91,14 @@ docker compose up
 
 ## Documentação e Endpoints
 
-| Links          |                                             |
-|----------------|---------------------------------------------|
-| Health Check   | http://localhost:8080/actuator/health       |
-| OpenAPI        | http://localhost:8080/v3/api-docs           |
-| Swagger UI     | http://localhost:8080/swagger-ui/index.html |
+Após aplicação em execução, acessar os três links abaixo:
+
+| Links          |                                             |                                              |
+|----------------|---------------------------------------------|----------------------------------------------|
+| Health Check   | http://localhost:8080/actuator/health       | Validar o estado de saúde da aplicação.      |
+| OpenAPI        | http://localhost:8080/v3/api-docs           | Especificação OpenAPI da API em formato JSON |
+| Swagger UI     | http://localhost:8080/swagger-ui/index.html | Interface interativa gerada pelo Swagger UI. |
+
 
 ### _*/veiculos*_
 
