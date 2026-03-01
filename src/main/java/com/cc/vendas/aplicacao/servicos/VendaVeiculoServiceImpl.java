@@ -1,6 +1,8 @@
 package com.cc.vendas.aplicacao.servicos;
 
 import com.cc.vendas.aplicacao.casosdeuso.VendaUseCase;
+import com.cc.vendas.aplicacao.dto.mapper.VeiculoAppMapper;
+import com.cc.vendas.aplicacao.dto.saida.VeiculoResumoOutput;
 import com.cc.vendas.dominio.excecao.RegraNegocioException;
 import com.cc.vendas.dominio.veiculo.Veiculo;
 import com.cc.vendas.dominio.veiculo.VeiculoRepository;
@@ -21,7 +23,7 @@ public class VendaVeiculoServiceImpl implements VendaUseCase {
     }
 
     @Override
-    public void registrarVenda(UUID id, String docComprador) {
+    public VeiculoResumoOutput registrarVenda(UUID id, String docComprador) {
         Veiculo veiculo = veiculoRepositoryPort.buscarPorId(id)
                 .orElseThrow(() -> new RegraNegocioException("Veículo não encontrado"));
 
@@ -36,5 +38,7 @@ public class VendaVeiculoServiceImpl implements VendaUseCase {
         );
 
         vendaRepositoryPort.salvar(venda);
+
+        return VeiculoAppMapper.veiculoParaResumoOutput(veiculo);
     }
 }

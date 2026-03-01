@@ -9,6 +9,7 @@ import com.cc.vendas.dominio.excecao.RegraNegocioException;
 import com.cc.vendas.dominio.veiculo.StatusVeiculo;
 import com.cc.vendas.dominio.veiculo.Veiculo;
 import com.cc.vendas.dominio.veiculo.VeiculoRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,7 +27,7 @@ public class VeiculoServiceImpl implements VeiculoUseCase {
     @Override
     public VeiculoResumoOutput atualizarDadosVeiculo(UUID id, AtualizarVeiculoInput veiculo) {
         Veiculo veiculoEntity = repository.buscarPorId(id)
-                .orElseThrow(() -> new RegraNegocioException("Veículo não encontrado"));
+                .orElseThrow(() ->  new EntityNotFoundException("Veículo não encontrado"));
 
         veiculoEntity.atualizarDados(
                 veiculo.marca(),
@@ -58,9 +59,11 @@ public class VeiculoServiceImpl implements VeiculoUseCase {
     }
 
     @Override
-    public Optional<VeiculoResumoOutput> buscarVeiculoPorId(UUID id) {
+    public VeiculoResumoOutput buscarVeiculoPorId(UUID id) {
         return repository.buscarPorId(id)
-                .map(VeiculoAppMapper::veiculoParaResumoOutput);
+                .map(VeiculoAppMapper::veiculoParaResumoOutput)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Veiculo não encontrado"));
     }
 
     @Override
