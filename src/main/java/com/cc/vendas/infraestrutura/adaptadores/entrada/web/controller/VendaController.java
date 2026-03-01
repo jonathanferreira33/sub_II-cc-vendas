@@ -2,6 +2,8 @@ package com.cc.vendas.infraestrutura.adaptadores.entrada.web.controller;
 
 import com.cc.vendas.aplicacao.casosdeuso.VendaUseCase;
 import com.cc.vendas.infraestrutura.adaptadores.entrada.web.dto.requisicao.RegistrarVendaRequest;
+import com.cc.vendas.infraestrutura.adaptadores.entrada.web.dto.resposta.VeiculoResumoResponse;
+import com.cc.vendas.infraestrutura.adaptadores.entrada.web.mapper.VeiculoMapperWeb;
 import com.cc.vendas.infraestrutura.erro.ApiErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,10 +23,10 @@ import java.util.UUID;
 @RequestMapping("api/vendas")
 @Tag(name = "Vendas", description = "Operações relacionadas à venda de veículos")
 public class VendaController {
-    private final VendaUseCase vendaVeiculoUseCase;
+    private final VendaUseCase useCase;
 
     public VendaController(VendaUseCase vendaVeiculoUseCase) {
-        this.vendaVeiculoUseCase = vendaVeiculoUseCase;
+        this.useCase = vendaVeiculoUseCase;
     }
 
     @Operation(
@@ -71,7 +73,7 @@ public class VendaController {
             )
     })
     @PostMapping("/{idVeiculo}/registrar-venda")
-    public ResponseEntity<Void> registrarVenda(
+    public ResponseEntity<VeiculoResumoResponse> registrarVenda(
             @Parameter(
                     description = "ID do veículo",
                     required = true,
@@ -80,15 +82,13 @@ public class VendaController {
             @PathVariable UUID idVeiculo,
             @RequestBody RegistrarVendaRequest request) {
 
-        vendaVeiculoUseCase.registrarVenda(idVeiculo, request.docComprador());
+        var output = useCase.registrarVenda(idVeiculo, request.docComprador());
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/api/veiculos/{id}")
-                .buildAndExpand(idVeiculo)
-                .toUri();
+        var response = VeiculoMapperWeb.resumoOutputParaResponse(output);
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity
+                .created(URI.create("/api/veiculos/" + idVeiculo))
+                .body(response);
     }
 
 }

@@ -12,7 +12,7 @@ public interface VeiculoUseCase {
     VeiculoResumoOutput atualizarDadosVeiculo(UUID id, AtualizarVeiculoInput veiculo);
     List<VeiculoResumoOutput> buscarVeiculosDisponiveis();
     List<VeiculoResumoOutput> buscarVeiculosVendidos();
-    Optional<VeiculoResumoOutput> buscarVeiculoPorId(UUID id);
+    VeiculoResumoOutput buscarVeiculoPorId(UUID id);
     VeiculoResumoOutput cadastrarVeiculo(RegistrarVeiculoInput input);
 
 }

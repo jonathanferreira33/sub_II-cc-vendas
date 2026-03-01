@@ -7,11 +7,63 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
-@RestControllerAdvice(basePackages = "com.cc.vendas.adaptadores.entrada.web")
+@RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleEntityNotFound(
+            EntityNotFoundException ex,
+            HttpServletRequest request) {
+
+        return buildResponse(
+                HttpStatus.NOT_FOUND,
+                "Recurso não encontrado",
+                ex.getMessage(),
+                request
+        );
+    }
+
+    @ExceptionHandler(RegraNegocioException.class)
+    public ResponseEntity<ApiErrorResponse> handleRegraNegocio(
+            RegraNegocioException ex,
+            HttpServletRequest request) {
+
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                "Erro de regra de negócio",
+                ex.getMessage(),
+                request
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiErrorResponse> handleTypeMismatch(
+            MethodArgumentTypeMismatchException ex,
+            HttpServletRequest request) {
+
+        if (ex.getRequiredType() != null &&
+                ex.getRequiredType().equals(UUID.class)) {
+
+            return buildResponse(
+                    HttpStatus.BAD_REQUEST,
+                    "ID inválido",
+                    "O identificador informado não é um UUID válido.",
+                    request
+            );
+        }
+
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                "Parâmetro inválido",
+                "Um ou mais parâmetros estão inválidos.",
+                request
+        );
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGenerica(

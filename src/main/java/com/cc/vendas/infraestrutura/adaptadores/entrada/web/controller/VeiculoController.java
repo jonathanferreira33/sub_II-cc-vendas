@@ -1,5 +1,6 @@
 package com.cc.vendas.infraestrutura.adaptadores.entrada.web.controller;
 
+import com.cc.vendas.aplicacao.dto.saida.VeiculoResumoOutput;
 import com.cc.vendas.infraestrutura.adaptadores.entrada.web.dto.requisicao.AtualizarVeiculoRequest;
 import com.cc.vendas.infraestrutura.adaptadores.entrada.web.dto.requisicao.RegistrarVeiculoRequest;
 import com.cc.vendas.infraestrutura.adaptadores.entrada.web.dto.resposta.VeiculoResumoResponse;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -151,10 +153,11 @@ public class VeiculoController {
                     required = true
             )
             @PathVariable UUID idVeiculo) {
-        return useCase.buscarVeiculoPorId(idVeiculo)
-                .map(VeiculoMapperWeb::resumoOutputParaResponse)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        VeiculoResumoOutput output = useCase.buscarVeiculoPorId(idVeiculo);
+
+        return ResponseEntity.ok(
+                VeiculoMapperWeb.resumoOutputParaResponse(output)
+        );
     }
 
     @Operation(
@@ -257,6 +260,7 @@ public class VeiculoController {
                     required = true
             )
             @PathVariable UUID idVeiculo,
+            @Valid
             @RequestBody AtualizarVeiculoRequest request) {
 
         var output = useCase.atualizarDadosVeiculo(

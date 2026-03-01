@@ -1,6 +1,7 @@
 package com.cc.vendas.infraestrutura.global;
 
 import com.cc.vendas.aplicacao.casosdeuso.VendaUseCase;
+import com.cc.vendas.aplicacao.dto.saida.VeiculoResumoOutput;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
@@ -15,7 +16,7 @@ public class VendaUseCaseTransactional implements VendaUseCase {
     }
 
     @Override
-    public void registrarVenda(UUID id, String docComprador) {
-        delegate.registrarVenda(id, docComprador);
+    public VeiculoResumoOutput registrarVenda(UUID id, String docComprador) {
+        return delegate.registrarVenda(id, docComprador);
     }
 }
