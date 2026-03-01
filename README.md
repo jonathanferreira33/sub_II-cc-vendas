@@ -91,11 +91,11 @@ docker compose up
 
 ## Documentação e Endpoints
 
-| Pré-requisitos |                                             |
+| Links          |                                             |
 |----------------|---------------------------------------------|
-| Swagger UI     | http://localhost:8080/swagger-ui/index.html |
-| OpenAPI        | http://localhost:8080/v3/api-docs           |
 | Health Check   | http://localhost:8080/actuator/health       |
+| OpenAPI        | http://localhost:8080/v3/api-docs           |
+| Swagger UI     | http://localhost:8080/swagger-ui/index.html |
 
 ### _*/veiculos*_
 
